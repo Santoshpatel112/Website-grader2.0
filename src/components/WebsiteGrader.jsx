@@ -1,517 +1,11 @@
-// import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import LoadingPage from "./LoadingPage";
-
-// const WebsiteGrader = () => {
-//   const [showLanguageOptions, setShowLanguageOptions] = useState(false);
-//   const [url, setUrl] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState(null);
-//   const navigate = useNavigate();
-//   const [validationErrors, setValidationErrors] = useState({
-//     url: "",
-//     email: ""
-//   });
-
-
-//   const cards = [
-//     {
-//       title: "What is a website checker?",
-//       content:
-//         "A website checker is a mini site audit, giving you insight into how your website performs. A good website analyzer should audit your site across a range of criteria so you can get an idea of your overall performance, security, mobile experience, and search engine optimization (SEO). If you’re looking for next steps, read HubSpot’s Academy Course on Web Optimization to learn about the factors that are both improving and reducing your site rating.",
-//     },
-//     {
-//       title: "How to optimize a website for SEO?",
-//       content:
-//         "There are some concrete steps you can take to optimize your site for SEO. Making sure your pages are indexed (viewable by search engines) is a great start. In addition, making full use of alt-tags and meta-data is advised. If you want to go further, try making sure you have descriptive link text and appropriate content plugins. And if you’re wondering where to start, getting your site’s SEO score is a great first step. It just so happens HubSpot’s website grader has a built-in SEO test!",
-//     },
-//     {
-//       title: "Why is website performance important?",
-//       content:
-//         "Performance test matters because it is a key factor in user experience. When users get an immediate response, such as a click, a successful login, or confirmation, they are more likely to stay on the page. This fast response is commonly referred to as website speed. Search engines like Google check website speed and interactivity to make sure searchers only see high-quality sites. So beyond building a better user experience, speed tools help you make your site more attractive to search engines – win-win.",
-//     },
-//     {
-//       title: "Why is website grading important?",
-//       content:
-//         "Test grading is important because it can help you build your site smarter and better while monitoring its health along the way. These site testers help show the impact of the steps you’re taking and areas for new opportunities by checking the pages of your website. It can also help you understand what your competitors are doing, and why they do it. Technical evaluation and general assessment are important in any site build. Doing both makes your site successful in the search results and beyond!",
-//     },
-//   ];
-
-
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
-    
-//     // Define newValidationErrors object
-//     const newValidationErrors = {
-//       url: "",
-//       email: ""
-//     };
-
-//     if(!url.trim()){
-//       alert ("Please enter a URL");
-//       setLoading(false);
-//       return
-//     }    
-
-//     // Validation for Email using a simple regex pattern
-//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//     if (!email.trim()) {
-//       alert("Please enter an email address");
-//       setLoading(false);
-//       return;
-//     }
-//     if (!emailRegex.test(email.trim())) {
-//       alert("Please enter a valid email address");
-//       setLoading(false);
-//       return;
-//     }
-
-//     // Set validation errors
-//     setValidationErrors(newValidationErrors);
-
-//     // Check if there are any validation errors
-//     if (newValidationErrors.url || newValidationErrors.email) {
-//       // Reset loading state and error if validation fails
-//       setLoading(false);
-//       setError(null);
-//       return; // Stop form submission
-//     }
-
-//     setLoading(true);
-//     setError(null);
-
-
-//     try {
-//       const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=performance&category=accessibility&category=seo&category=best-practices`;
-      
-//       const response = await fetch(apiUrl);
-
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! status: ${response.status}`);
-//       }
-
-//       const data = await response.json();
-//       const lighthouseResult = data?.lighthouseResult;
-//       if (!lighthouseResult) {
-//         throw new Error("Lighthouse data is not available in the API response.");
-//       }
-
-//       const performanceScore = parseFloat((lighthouseResult.categories?.performance?.score * 100 || 0).toFixed(1));
-//       const accessibilityScore = parseFloat((lighthouseResult.categories?.accessibility?.score * 100 || 0).toFixed(1));
-//       const bestPracticesScore = parseFloat((lighthouseResult.categories?.["best-practices"]?.score * 100 || 0).toFixed(1));
-//       const seoScore = parseFloat((lighthouseResult.categories?.seo?.score * 100 || 0).toFixed(1));
-
-//       const resultData = {
-//         url,
-//         scores: {
-//           aggregate: (performanceScore + accessibilityScore + bestPracticesScore + seoScore) / 4,
-//           details: [
-//             { label: "Performance", score: performanceScore, maxScore: 100, color: "red" },
-//             { label: "Accessibility", score: accessibilityScore, maxScore: 100, color: "orange" },
-//             { label: "Best Practices", score: bestPracticesScore, maxScore: 100, color: "blue" },
-//             { label: "SEO", score: seoScore, maxScore: 100, color: "green" },
-//           ],  
-//         },
-//       };
-
-//       navigate("/lighthouse", { state: { analysisData: resultData } });
-//     } catch (error) {
-//       setError(`Failed to fetch performance data: ${error.message}`);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4 animate-fadeIn">
-//       <div className="absolute top-4 right-4 flex items-end space-x-4 mb-5">
-//         <div className="relative">
-//           <button
-//             className="flex items-center space-x-2 text-black rounded-3xl border-2 border-gray-500 hover:scale-105 transform transition-transform duration-300"
-//             onClick={() => setShowLanguageOptions(!showLanguageOptions)}
-//           >
-//             English <span className="icon icon-angle-down"></span>
-//           </button>
-//           {showLanguageOptions && (
-//             <ul className="absolute bg-white border rounded-md mt-2 w-40">
-//               <li className="p-2">
-//                 <a href="" className="text-black">Deutsch</a>
-//               </li>
-//               <li className="p-2 hover:bg-gray-100">
-//                 <a href="">
-//                   <span className="icon icon-check"></span> <div className="text-black">English</div>
-//                 </a>
-//               </li>
-//               <li className="p-2 hover:bg-gray-100">
-//                 <a href="" className="text-black">Español</a>
-//               </li>
-//               <li className="p-2 hover:bg-gray-100">
-//                 <a href="" className="text-black">Français</a>
-//               </li>
-//               <li className="p-2 hover:bg-gray-100">
-//                 <a href="" className="text-black">日本語</a>
-//               </li>
-//               <li className="p-2 hover:bg-gray-100">
-//                 <a href="" className="text-black">Português</a>
-//               </li>
-//             </ul>
-//           )}
-//         </div>
-//       </div>
-//       <div className="w-full max-w-lg bg-gray-800 rounded-lg shadow-lg p-6" style={{border:"1px solid gray",backgroundColor:"#2D3E50"}}>
-//         <div className="flex justify-center mb-4">
-//           <img width="151px" alt="Website Grader" src="..\public\newlogo.png" />
-//         </div>
-//         <h1 className="text-5xl mb-5 text-center">Website Grader <sup>®</sup></h1>
-//         <p className="text-lg mb-8 text-center">
-//           Grade your website in seconds. Then learn how to improve it for free.
-//         </p>
-//         <form onSubmit={handleSubmit} className="mb-8">
-//           <div className="mb-4">
-//             <input
-//               type="text"
-//               value={url}
-//               onChange={(e) => setUrl(e.target.value)} // set url viva state
-//               placeholder="https://example.com"
-//               className="p-3 w-full text-lg rounded-md border border-gray-300 bg-gray-800 text-white text-center focus:outline-none"
-//             />
-//           </div>
-//           <div className="mb-4">
-//             <input
-//               type="text"
-//              value={email}
-//              onChange={(e) => setEmail(e.target.value)}
-//             placeholder="Enter Your Email"
-//               className="p-3 w-full text-lg rounded-md border border-gray-300 bg-gray-800 text-white text-center focus:outline-none"
-//             />
-//           </div>
-//           <p className="text-sm text-white mt-2 text-center">
-//             We are committed to your privacy. Mycto uses the information you provide to us to contact you about our relevant content, products, and services. You may unsubscribe from these communications at any time. For more information, check out our{" "}
-//             <a href="" className="text-blue-500 underline">Privacy Policy</a>.
-//           </p>
-//           <button type="submit" className="py-3 px-8 bg-orange-600 text-white rounded-md hover:bg-orange-300 transition w-full mt-4 hover:scale-105 transform transition-transform duration-300">
-//             Get your score
-//           </button>
-//         </form>
-//         {loading && (
-//           <div className="text-white text-lg mt-5 flex justify-center items-center">
-//             <div className="loader flex justify-center items-center space-x-1">
-//               {Array.from({ length: 15 }).map((_, index) => (
-//                 <span key={index} className="w-3.5 h-3.5 bg-white rounded-full animate-bounce" style={{ animationDelay: `${index * 0.15}s` }}></span>
-//               ))}
-//             </div>
-//           </div>
-          
-//         )}
-//         {error && <div className="text-red-500 text-base mt-5">{error}</div>}
-//       </div>
-//       <section className="BottomFaq__OverviewSection flex items-center mb-6 mt-10">
-//         <div className="overview flex-1">
-//           <h2 className="overview-title text-2xl font-bold mb-2 text-gray-300">Get Your Website Rating in Seconds</h2>
-//           <p className="overview-description text-gray-300">
-//             Mycto tools free website grader makes understanding website performance easy. The hardest part of building a site is often the guesswork. Which changes are important, and which aren’t? It can sometimes feel impossible to tell. Our online grader demystifies the whole process. Learn about your page performance, security, search engine optimization (SEO), and mobile experience. Discover what makes your site strong and uncover new opportunities for the future.
-//           </p>
-//         </div>
-//         <div className="overview-img flex-1 text-center pl-10">
-//           <img loading="lazy" height="462" width="470" src="//static.hsappstatic.net/website-grader-ui/static-1.3755/img/website-performance-rating.jpg" alt="Webpage score after performing a free test with the Website Grader" className="max-w-full h-auto rounded-xl" style={{border:"1px solid gray"}} />
-//         </div>
-//       </section>
-
-      
-//       <div className="container mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-6 ">
-//       {cards.map((card, index) => (
-//         <div
-//           key={index}
-//           className="bg-white shadow-md rounded-lg p-6 border border-gray-200 hover:shadow-lg transition-all duration-2000 ease-in-out transform hover:scale-105 cursor-pointer" 
-//         >
-//           <h3 className="text-lg font-semibold mb-4 text-blue-600">{card.title}</h3>
-//           <p className="text-gray-700 text-sm leading-relaxed">{card.content}</p>
-//         </div>
-        
-
-//       ))}
-//     </div>
-
-//     </div>
-    
-//   );
-// };
-
-// export default WebsiteGrader;
-
-
-// //  Update code
-
-
-
-// import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { motion } from "framer-motion";
-// import { FaGlobe, FaEnvelope, FaChevronDown, FaSpinner } from "react-icons/fa";
-// import LoadingPage from "./LoadingPage";
-
-// const WebsiteGrader = () => {
-//   const [showLanguageOptions, setShowLanguageOptions] = useState(false);
-//   const [url, setUrl] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState(null);
-//   const navigate = useNavigate();
-
-//   const cards = [
-//     {
-//       title: "What is a website checker?",
-//       content:
-//         "A website checker is a mini site audit, giving you insight into how your website performs. It audits your site across various criteria for overall performance, security, mobile experience, and SEO.",
-//     },
-//     {
-//       title: "How to optimize a website for SEO?",
-//       content:
-//         "To optimize for SEO, ensure your pages are indexed, use alt-tags and meta-data, have descriptive link text, and appropriate content plugins. Start by getting your site's SEO score with our built-in SEO test!",
-//     },
-//     {
-//       title: "Why is website performance important?",
-//       content:
-//         "Website performance is crucial for user experience. Fast response times keep users engaged and improve search engine rankings. Speed tools help make your site more attractive to both users and search engines.",
-//     },
-//     {
-//       title: "Why is website grading important?",
-//       content:
-//         "Website grading helps you build and monitor your site's health. It shows the impact of your improvements and identifies new opportunities. It also helps you understand and compete with your competitors' strategies.",
-//     },
-//   ];
-
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
-
-//     if (!url.trim()) {
-//       setError("Please enter a URL");
-//       return;
-//     }
-
-//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//     if (!email.trim() || !emailRegex.test(email.trim())) {
-//       setError("Please enter a valid email address");
-//       return;
-//     }
-
-//     setLoading(true);
-//     setError(null);
-
-//     try {
-//       const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(
-//         url
-//       )}&category=performance&category=accessibility&category=seo&category=best-practices`;
-
-//       const response = await fetch(apiUrl);
-
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! status: ${response.status}`);
-//       }
-
-//       const data = await response.json();
-//       const lighthouseResult = data?.lighthouseResult;
-//       if (!lighthouseResult) {
-//         throw new Error("Lighthouse data is not available in the API response.");
-//       }
-
-//       const performanceScore = parseFloat(
-//         (lighthouseResult.categories?.performance?.score * 100 || 0).toFixed(1)
-//       );
-//       const accessibilityScore = parseFloat(
-//         (lighthouseResult.categories?.accessibility?.score * 100 || 0).toFixed(1)
-//       );
-//       const bestPracticesScore = parseFloat(
-//         (lighthouseResult.categories?.["best-practices"]?.score * 100 || 0).toFixed(1)
-//       );
-//       const seoScore = parseFloat(
-//         (lighthouseResult.categories?.seo?.score * 100 || 0).toFixed(1)
-//       );
-
-//       const resultData = {
-//         url,
-//         scores: {
-//           aggregate: (performanceScore + accessibilityScore + bestPracticesScore + seoScore) / 4,
-//           details: [
-//             { label: "Performance", score: performanceScore, maxScore: 100, color: "red" },
-//             { label: "Accessibility", score: accessibilityScore, maxScore: 100, color: "orange" },
-//             { label: "Best Practices", score: bestPracticesScore, maxScore: 100, color: "blue" },
-//             { label: "SEO", score: seoScore, maxScore: 100, color: "green" },
-//           ],
-//         },
-//       };
-
-//       navigate("/lighthouse", { state: { analysisData: resultData } });
-//     } catch (error) {
-//       setError(`Failed to fetch performance data: ${error.message}`);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <motion.div
-//       initial={{ opacity: 0 }}
-//       animate={{ opacity: 1 }}
-//       transition={{ duration: 0.5 }}
-//       className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-gray-800 text-white p-4 sm:p-6 md:p-8"
-//     >
-//       <div className="absolute top-4 right-4 z-10">
-//         <motion.button
-//           whileHover={{ scale: 1.05 }}
-//           whileTap={{ scale: 0.95 }}
-//           className="flex items-center space-x-2 bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium"
-//           onClick={() => setShowLanguageOptions(!showLanguageOptions)}
-//         >
-//           <span>English</span>
-//           <FaChevronDown className={`transition-transform duration-300 ${showLanguageOptions ? 'rotate-180' : ''}`} />
-//         </motion.button>
-//         {showLanguageOptions && (
-//           <motion.ul
-//             initial={{ opacity: 0, y: -10 }}
-//             animate={{ opacity: 1, y: 0 }}
-//             exit={{ opacity: 0, y: -10 }}
-//             className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 text-gray-800"
-//           >
-//             {["English", "Deutsch", "Español", "Français", "日本語", "Português"].map((lang) => (
-//               <motion.li
-//                 key={lang}
-//                 whileHover={{ backgroundColor: "#f3f4f6" }}
-//                 className="px-4 py-2 text-sm cursor-pointer"
-//               >
-//                 {lang}
-//               </motion.li>
-//             ))}
-//           </motion.ul>
-//         )}
-//       </div>
-
-//       <motion.div
-//         initial={{ y: 20, opacity: 0 }}
-//         animate={{ y: 0, opacity: 1 }}
-//         transition={{ delay: 0.2 }}
-//         className="w-full max-w-2xl bg-white rounded-lg shadow-2xl p-6 sm:p-8 md:p-10"
-//       >
-//         <div className="flex justify-center mb-6">
-//           <img width="151" alt="Website Grader" src="/newlogo.png" className="h-12 sm:h-16" />
-//         </div>
-//         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-center text-gray-800">
-//           Website Grader <sup className="text-orange-500">®</sup>
-//         </h1>
-//         <p className="text-lg mb-8 text-center text-gray-600">
-//           Grade your website in seconds. Then learn how to improve it for free.
-//         </p>
-//         <form onSubmit={handleSubmit} className="space-y-4">
-//           <div className="relative">
-//             <FaGlobe className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-//             <input
-//               type="text"
-//               value={url}
-//               onChange={(e) => setUrl(e.target.value)}
-//               placeholder="https://example.com"
-//               className="pl-10 p-3 w-full text-lg rounded-md border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-//             />
-//           </div>
-//           <div className="relative">
-//             <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-//             <input
-//               type="email"
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//               placeholder="Enter Your Email"
-//               className="pl-10 p-3 w-full text-lg rounded-md border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-//             />
-//           </div>
-//           <p className="text-xs text-gray-500 mt-2 text-center">
-//             We are committed to your privacy. MyCTO uses the information you provide to contact you about relevant content, products, and services. You may unsubscribe anytime. For more information, check out our{" "}
-//             <a href="#" className="text-orange-500 hover:underline">
-//               Privacy Policy
-//             </a>
-//             .
-//           </p>
-//           <motion.button
-//             whileHover={{ scale: 1.05 }}
-//             whileTap={{ scale: 0.95 }}
-//             type="submit"
-//             className="py-3 px-8 bg-orange-500 text-white rounded-md w-full text-lg font-medium transition-colors duration-300 hover:bg-orange-600"
-//             disabled={loading}
-//           >
-//             {loading ? (
-//               <FaSpinner className="animate-spin mx-auto" />
-//             ) : (
-//               "Get your score"
-//             )}
-//           </motion.button>
-//         </form>
-//         {error && (
-//           <motion.div
-//             initial={{ opacity: 0 }}
-//             animate={{ opacity: 1 }}
-//             className="text-red-500 text-sm mt-4 text-center"
-//           >
-//             {error}
-//           </motion.div>
-//         )}
-//       </motion.div>
-
-//       <motion.section
-//         initial={{ opacity: 0, y: 20 }}
-//         animate={{ opacity: 1, y: 0 }}
-//         transition={{ delay: 0.4 }}
-//         className="mt-16 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
-//       >
-//         <div className="grid md:grid-cols-2 gap-8 items-center">
-//           <div>
-//             <h2 className="text-3xl font-bold mb-4 text-white">Get Your Website Rating in Seconds</h2>
-//             <p className="text-gray-300">
-//               MyCTO's free website grader makes understanding website performance easy. Discover what makes your site strong and uncover new opportunities for improvement in page performance, security, SEO, and mobile experience.
-//             </p>
-//           </div>
-//           <div className="mt-8 md:mt-0">
-//             <img
-//               src="//static.hsappstatic.net/website-grader-ui/static-1.3755/img/website-performance-rating.jpg"
-//               alt="Webpage score after performing a free test with the Website Grader"
-//               className="rounded-lg shadow-xl"
-//             />
-//           </div>
-//         </div>
-//       </motion.section>
-
-//       <motion.div
-//         initial={{ opacity: 0, y: 20 }}
-//         animate={{ opacity: 1, y: 0 }}
-//         transition={{ delay: 0.6 }}
-//         className="container mx-auto p-6 mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
-//       >
-//         {cards.map((card, index) => (
-//           <motion.div
-//             key={index}
-//             whileHover={{ scale: 1.05 }}
-//             className="bg-white rounded-lg p-6 shadow-lg"
-//           >
-//             <h3 className="text-xl font-semibold mb-4 text-gray-800">{card.title}</h3>
-//             <p className="text-gray-600">{card.content}</p>
-//           </motion.div>
-//         ))}
-//       </motion.div>
-//     </motion.div>
-//   );
-// };
-
-// export default WebsiteGrader;
-
-
-
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import emailjs from '@emailjs/browser'
 import { Link, useNavigate } from 'react-router-dom'
-import { ChevronDownIcon, CheckIcon } from 'lucide-react'
+import { ChevronDownIcon, CheckIcon, ArrowRight, Shield, Zap, Search, Smartphone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import React, { useRef } from 'react';
-import { useEffect } from 'react';
+import React from 'react';
 
 import Contact from './Contact'
 
@@ -523,20 +17,83 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
+// Language translations
+const translations = {
+  en: {
+    title: "Website Grader",
+    subtitle: "Grade your website in seconds. Then learn how to improve it for free.",
+    urlPlaceholder: "https://example.com",
+    emailPlaceholder: "Enter Your Email",
+    privacyText: "We are committed to your privacy. Mycto uses the information you provide to us to contact you about our relevant content, products, and services. You may unsubscribe from these communications at any time. For more information, check out our",
+    privacyPolicy: "Privacy Policy",
+    getScore: "Get your score",
+    analyzing: "Analyzing...",
+    featuresTitle: "Get Your Website Rating in Seconds",
+    featuresSubtitle: "Website grader tools make understanding website performance easy. Learn about your page performance, security, SEO, and mobile experience.",
+    performance: "Performance",
+    performanceDesc: "Analyze your website's speed and performance metrics",
+    security: "Security",
+    securityDesc: "Check your website's security and best practices",
+    seo: "SEO",
+    seoDesc: "Evaluate your search engine optimization",
+    mobile: "Mobile",
+    mobileDesc: "Test your website's mobile responsiveness",
+    realTimeAnalysis: "Real-time Analysis"
+  },
+  de: {
+    title: "Website Grader",
+    subtitle: "Bewerten Sie Ihre Website in Sekunden. Lernen Sie dann kostenlos, wie Sie sie verbessern können.",
+    urlPlaceholder: "https://beispiel.de",
+    emailPlaceholder: "E-Mail eingeben",
+    privacyText: "Wir verpflichten uns zu Ihrer Privatsphäre. Mycto verwendet die von Ihnen bereitgestellten Informationen, um Sie über relevante Inhalte, Produkte und Dienstleistungen zu informieren. Sie können diese Kommunikation jederzeit abbestellen. Weitere Informationen finden Sie in unserer",
+    privacyPolicy: "Datenschutzerklärung",
+    getScore: "Bewertung erhalten",
+    analyzing: "Analysiere...",
+    featuresTitle: "Erhalten Sie Ihre Website-Bewertung in Sekunden",
+    featuresSubtitle: "Website-Grader-Tools machen es einfach, die Website-Performance zu verstehen. Erfahren Sie mehr über Ihre Seitenleistung, Sicherheit, SEO und mobile Erfahrung.",
+    performance: "Leistung",
+    performanceDesc: "Analysieren Sie die Geschwindigkeit und Leistungsmetriken Ihrer Website",
+    security: "Sicherheit",
+    securityDesc: "Überprüfen Sie die Sicherheit und Best Practices Ihrer Website",
+    seo: "SEO",
+    seoDesc: "Bewerten Sie Ihre Suchmaschinenoptimierung",
+    mobile: "Mobil",
+    mobileDesc: "Testen Sie die mobile Reaktionsfähigkeit Ihrer Website",
+    realTimeAnalysis: "Echtzeit-Analyse"
+  },
+  // Add more languages as needed
+};
 
 const WebsiteGrader = () => {
   useEffect(() => {
     emailjs.init('-243iobnGw0PSzPnp');
-
   }, []);
 
   const [url, setUrl] = useState('')
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [language, setLanguage] = useState('en')
 
   const navigate = useNavigate()
-const form = useRef();
+  const form = useRef();
+
+  const t = translations[language] || translations.en;
+
+  const handleLanguageChange = (value) => {
+    setLanguage(value);
+    // You can also save the language preference to localStorage
+    localStorage.setItem('preferredLanguage', value);
+  };
+
+  // Load saved language preference on component mount
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('preferredLanguage');
+    if (savedLanguage) {
+      setLanguage(savedLanguage);
+    }
+  }, []);
+
   const handleSubmit = async (event) => {
     event.preventDefault()
     
@@ -559,24 +116,48 @@ const form = useRef();
     setError(null)
 
     try {
-      const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=performance&category=accessibility&category=seo&category=best-practices`
-      
-      const response = await fetch(apiUrl)
+      // Validate and auto-correct URL input
+      let checkedUrl = url.trim();
+      if (!/^https?:\/\//i.test(checkedUrl)) {
+        checkedUrl = 'https://' + checkedUrl;
+      }
+      // Check for valid URL format
+      try {
+        new URL(checkedUrl);
+      } catch (e) {
+        setError('Please enter a valid and complete URL (e.g., https://example.com)');
+        setLoading(false);
+        return;
+      }
+
+      const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(checkedUrl)}&category=performance&category=accessibility&category=seo&category=best-practices&key=AIzaSyAMChAvUuiA4K0DCd78I_7ZZZ-2RI9WJAg`;
+      const response = await fetch(apiUrl);
+
+      if (response.status === 400) {
+        setError('Invalid URL or request. Please check your website address and try again.');
+        setLoading(false);
+        return;
+      }
+      if (response.status === 429) {
+        setError('You have made too many requests. Please wait a minute and try again.');
+        setLoading(false);
+        return;
+      }
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json()
-      const lighthouseResult = data?.lighthouseResult
+      const data = await response.json();
+      const lighthouseResult = data?.lighthouseResult;
       if (!lighthouseResult) {
-        throw new Error('Lighthouse data is not available in the API response.')
+        throw new Error("Lighthouse data is not available in the API response.");
       }
 
-      const performanceScore = parseFloat((lighthouseResult.categories?.performance?.score * 100 || 0).toFixed(1))
-      const accessibilityScore = parseFloat((lighthouseResult.categories?.accessibility?.score * 100 || 0).toFixed(1))
-      const bestPracticesScore = parseFloat((lighthouseResult.categories?.['best-practices']?.score * 100 || 0).toFixed(1))
-      const seoScore = parseFloat((lighthouseResult.categories?.seo?.score * 100 || 0).toFixed(1))
+      const performanceScore = parseFloat((lighthouseResult.categories?.performance?.score * 100 || 0).toFixed(1));
+      const accessibilityScore = parseFloat((lighthouseResult.categories?.accessibility?.score * 100 || 0).toFixed(1));
+      const bestPracticesScore = parseFloat((lighthouseResult.categories?.["best-practices"]?.score * 100 || 0).toFixed(1));
+      const seoScore = parseFloat((lighthouseResult.categories?.seo?.score * 100 || 0).toFixed(1));
 
 
       const emailContent = `
@@ -628,155 +209,253 @@ const form = useRef();
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4 animate-fadeIn">
-      <div className="absolute top-4 right-4 mb-5"style={{color:"black"}}>
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select Language" />
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-background" />
+        <div className="container-custom relative py-20 md:py-32">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <div className="flex items-center space-x-4">
+                <img 
+                  src="/public/newlogo.png" 
+                  alt={t.title} 
+                  className="h-12 w-auto"
+                />
+                <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
+                  {t.title} <sup className="text-sm">®</sup>
+                </h1>
+              </div>
+              <p className="text-xl text-muted-foreground">
+                {t.subtitle}
+              </p>
+              <div className="card max-w-xl">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="space-y-2">
+                    <Input
+                      ref={form}
+                      type="text"
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                      placeholder={t.urlPlaceholder}
+                      className="input-field"
+                    />
+                    <Input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder={t.emailPlaceholder}
+                      className="input-field"
+                    />
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    {t.privacyText}{' '}
+                    <a href="#" className="text-primary hover:underline">{t.privacyPolicy}</a>.
+                  </p>
+                  <Button 
+                    type="submit" 
+                    className="btn-primary w-full"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                        <span>{t.analyzing}</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center space-x-2">
+                        <span>{t.getScore}</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </div>
+                    )}
+                  </Button>
+                </form>
+                {error && (
+                  <div className="mt-4 p-3 bg-destructive/10 text-destructive rounded-lg text-sm">
+                    {error}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="relative">
+              <img 
+                src="//static.hsappstatic.net/website-grader-ui/static-1.3755/img/website-performance-rating.jpg" 
+                alt={t.title} 
+                className="rounded-2xl shadow-2xl"
+              />
+              <div className="absolute -bottom-6 -left-6 bg-card p-4 rounded-2xl shadow-lg">
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+                  <span className="text-sm font-medium">{t.realTimeAnalysis}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="section bg-secondary/50">
+        <div className="container-custom">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              {t.featuresTitle}
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              {t.featuresSubtitle}
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: <Zap className="w-6 h-6" />,
+                title: t.performance,
+                description: t.performanceDesc
+              },
+              {
+                icon: <Shield className="w-6 h-6" />,
+                title: t.security,
+                description: t.securityDesc
+              },
+              {
+                icon: <Search className="w-6 h-6" />,
+                title: t.seo,
+                description: t.seoDesc
+              },
+              {
+                icon: <Smartphone className="w-6 h-6" />,
+                title: t.mobile,
+                description: t.mobileDesc
+              }
+            ].map((feature, index) => (
+              <div key={index} className="card group hover:border-primary/50 transition-colors">
+                <div className="p-2 bg-primary/10 rounded-xl w-fit mb-4 group-hover:bg-primary/20 transition-colors">
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                <p className="text-muted-foreground">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Language Selector */}
+      <div className="fixed top-4 right-4 z-50">
+        <Select 
+          defaultValue={language} 
+          onValueChange={(value) => {
+            setLanguage(value);
+            localStorage.setItem('preferredLanguage', value);
+          }}
+        >
+          <SelectTrigger className="w-[180px] bg-card/80 backdrop-blur-sm">
+            <SelectValue>
+              {language === 'en' && 'English'}
+              {language === 'de' && 'Deutsch'}
+              {language === 'es' && 'Español'}
+              {language === 'fr' && 'Français'}
+              {language === 'ja' && '日本語'}
+              {language === 'pt' && 'Português'}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="en">English</SelectItem>
-            <SelectItem value="de">Deutsch</SelectItem>
-            <SelectItem value="es">Español</SelectItem>
-            <SelectItem value="fr">Français</SelectItem>
-            <SelectItem value="ja">日本語</SelectItem>
-            <SelectItem value="pt">Português</SelectItem>
+            <SelectItem value="en">
+              <div className="flex items-center gap-2">
+                <span>🇺🇸</span>
+                <span>English</span>
+              </div>
+            </SelectItem>
+            <SelectItem value="de">
+              <div className="flex items-center gap-2">
+                <span>🇩🇪</span>
+                <span>Deutsch</span>
+              </div>
+            </SelectItem>
+            <SelectItem value="es">
+              <div className="flex items-center gap-2">
+                <span>🇪🇸</span>
+                <span>Español</span>
+              </div>
+            </SelectItem>
+            <SelectItem value="fr">
+              <div className="flex items-center gap-2">
+                <span>🇫🇷</span>
+                <span>Français</span>
+              </div>
+            </SelectItem>
+            <SelectItem value="ja">
+              <div className="flex items-center gap-2">
+                <span>🇯🇵</span>
+                <span>日本語</span>
+              </div>
+            </SelectItem>
+            <SelectItem value="pt">
+              <div className="flex items-center gap-2">
+                <span>🇵🇹</span>
+                <span>Português</span>
+              </div>
+            </SelectItem>
           </SelectContent>
         </Select>
       </div>
-      <div className="w-full max-w-lg bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-700">
-        <div className="flex justify-center mb-4">
-          <img width="151" alt="Website Grader" src="/public/newlogo.png" className="h-auto" style={{filter:"brightness(0) invert(1)"}}/>
-        </div>
-        <h1 className="text-4xl md:text-5xl mb-5 text-center font-bold">Website Grader <sup>®</sup></h1>
-        <p className="text-lg mb-8 text-center">
-          Grade your website in seconds. Then learn how to improve it for free.
-        </p>
-        <form onSubmit={handleSubmit} className="mb-8 space-y-4">
-          <Input
-            ref={form}
-            type="text"
-            
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://example.com"
-            className="text-center"
-            style={{color:"black"}}
-          />
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter Your Email"
-            className="text-center"
-            style={{color:"black"}}
-          />
-          <p className="text-sm text-gray-400 mt-2 text-center">
-            We are committed to your privacy. Mycto uses the information you provide to us to contact you about our relevant content, products, and services. You may unsubscribe from these communications at any time. For more information, check out our{' '}
-            <a href="#" className="text-blue-500 hover:underline">Privacy Policy</a>.
-          </p>
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Analyzing...' : 'Get your score'}
-          </Button>
-        </form>
-        {loading && (
-          <div className="flex justify-center items-center space-x-1">
-            {Array.from({ length: 3 }).map((_, index) => (
-              <div key={index} className="w-2 h-2 bg-white rounded-full animate-bounce" style={{ animationDelay: `${index * 0.15}s` }}></div>
-            ))}
+
+      {/* Contact Section */}
+      <footer className="bg-secondary/50 py-12 mt-20">
+        <div className="container-custom">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-center mb-8">Contact Me</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* GitHub */}
+              <a 
+                href="https://github.com/Santoshpatel112/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="card hover:border-primary/50 transition-colors group"
+              >
+                <div className="p-2 bg-primary/10 rounded-xl w-fit mb-4 group-hover:bg-primary/20 transition-colors">
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-2">GitHub</h3>
+                <p className="text-muted-foreground">@Santoshpatel112</p>
+              </a>
+
+              {/* LinkedIn */}
+              <a 
+                href="https://www.linkedin.com/in/santosh-patel112/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="card hover:border-primary/50 transition-colors group"
+              >
+                <div className="p-2 bg-primary/10 rounded-xl w-fit mb-4 group-hover:bg-primary/20 transition-colors">
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-2">LinkedIn</h3>
+                <p className="text-muted-foreground">Santosh Patel</p>
+              </a>
+
+              {/* Email */}
+              <a 
+                href="mailto:santoshpatelvns5@gmail.com"
+                className="card hover:border-primary/50 transition-colors group"
+              >
+                <div className="p-2 bg-primary/10 rounded-xl w-fit mb-4 group-hover:bg-primary/20 transition-colors">
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Email</h3>
+                <p className="text-muted-foreground">santoshpatelvns5@gmail.com</p>
+              </a>
+            </div>
           </div>
-        )}
-        {error && <div className="text-red-500 text-base mt-5 text-center">{error}</div>}
-      </div>
-      <section className="flex flex-col md:flex-row items-center mb-6 mt-10 gap-6">
-        <div className="flex-1">
-          <h2 className="text-2xl font-bold mb-2 text-gray-300">Get Your Website Rating in Seconds</h2>
-          <p className="text-gray-300">
-            Website grader tools free website grader makes understanding website performance easy. The hardest part of building a site is often the guesswork. Which changes are important, and which aren't? It can sometimes feel impossible to tell. Our online grader demystifies the whole process. Learn about your page performance, security, search engine optimization (SEO), and mobile experience. Discover what makes your site strong and uncover new opportunities for the future.
-          </p>
-        
-
         </div>
-        <div className="flex-1 text-center">
-          <img loading="lazy" height="462" width="470" src="//static.hsappstatic.net/website-grader-ui/static-1.3755/img/website-performance-rating.jpg" alt="Webpage score after performing a free test with the Website Grader" className="max-w-full h-auto rounded-xl border border-gray-700" />
-        </div>
-        
-      </section>
-
-
-     
-  {/* <Button
-    variant="outline"
-    color="black"
-    className="mt-4"
-    style={{
-      color: "black",
-      
-      height: "50px",
-      width: "200px",
-      fontSize: "20px",
-      onClick: () => {
-        navigate('/contact');
-        console.log('Contact button clicked');
-        
-      }
-    }}
-  >
-    Contact Us
-  </Button> */}
-
-
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-        {[
-          {
-            title: "What is a website checker?",
-            content: "A website checker is a mini site audit, giving you insight into how your website performs. A good website analyzer should audit your site across a range of criteria so you can get an idea of your overall performance, security, mobile experience, and search engine optimization (SEO).",
-          },
-          {
-            title: "How to optimize a website for SEO?",
-            content: "There are some concrete steps you can take to optimize your site for SEO. Making sure your pages are indexed (viewable by search engines) is a great start. In addition, making full use of alt-tags and meta-data is advised. If you want to go further, try making sure you have descriptive link text and appropriate content plugins.",
-          },
-          {
-            title: "Why is website performance important?",
-            content: "Performance test matters because it is a key factor in user experience. When users get an immediate response, such as a click, a successful login, or confirmation, they are more likely to stay on the page. This fast response is commonly referred to as website speed.",
-          },
-          {
-            title: "Why is website grading important?",
-            content: "Test grading is important because it can help you build your site smarter and better while monitoring its health along the way. These site testers help show the impact of the steps you're taking and areas for new opportunities by checking the pages of your website.",
-          },
-        ].map((card, index) => (
-          <Card key={index} className="transition-all duration-300 ease-in-out transform hover:scale-105 cursor-pointer">
-            <CardHeader>
-              <CardTitle>{card.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p>{card.content}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-      <Button
-    variant="outline"
-    color="black"
-    className="mt-4"
-    style={{
-      color: "black",
-      
-      height: "50px",
-      width: "200px",
-      fontSize: "20px",
-      onClick: () => {
-        navigate('/contact');
-        console.log('Contact button clicked');
-        
-      }
-    }}
-  >
-    Contact Us
-  </Button>
-  <br />
-      <Contact />
+      </footer>
     </div>
   )
 }
