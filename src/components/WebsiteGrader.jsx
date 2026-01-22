@@ -76,7 +76,7 @@ const WebsiteGrader = () => {
   const [language, setLanguage] = useState('en')
 
   const navigate = useNavigate()
-  const form = useRef();
+const form = useRef();
 
   const t = translations[language] || translations.en;
 
@@ -159,6 +159,12 @@ const WebsiteGrader = () => {
       const bestPracticesScore = parseFloat((lighthouseResult.categories?.["best-practices"]?.score * 100 || 0).toFixed(1));
       const seoScore = parseFloat((lighthouseResult.categories?.seo?.score * 100 || 0).toFixed(1));
 
+      // Extract additional metrics
+      const screenshot = lighthouseResult.audits?.["final-screenshot"]?.details?.data;
+      const pageSize = lighthouseResult.audits?.["total-byte-weight"]?.displayValue;
+      const pageRequests = lighthouseResult.audits?.["network-requests"]?.details?.items?.length;
+      const pageSpeed = lighthouseResult.audits?.["interactive"]?.displayValue;
+
 
       const emailContent = `
         
@@ -189,6 +195,12 @@ const WebsiteGrader = () => {
      
       const resultData = {
         url,
+        screenshot,
+        metrics: {
+          pageSize,
+          pageRequests,
+          pageSpeed,
+        },
         scores: {
           aggregate: (performanceScore + accessibilityScore + bestPracticesScore + seoScore) / 4,
           details: [
@@ -225,25 +237,25 @@ const WebsiteGrader = () => {
                 <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
                   {t.title} <sup className="text-sm">®</sup>
                 </h1>
-              </div>
+      </div>
               <p className="text-xl text-muted-foreground">
                 {t.subtitle}
               </p>
               <div className="card max-w-xl">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
-                    <Input
-                      ref={form}
-                      type="text"
-                      value={url}
-                      onChange={(e) => setUrl(e.target.value)}
+          <Input
+            ref={form}
+            type="text"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
                       placeholder={t.urlPlaceholder}
                       className="input-field"
-                    />
-                    <Input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
                       placeholder={t.emailPlaceholder}
                       className="input-field"
                     />
@@ -268,13 +280,13 @@ const WebsiteGrader = () => {
                         <ArrowRight className="w-4 h-4" />
                       </div>
                     )}
-                  </Button>
-                </form>
+          </Button>
+        </form>
                 {error && (
                   <div className="mt-4 p-3 bg-destructive/10 text-destructive rounded-lg text-sm">
                     {error}
-                  </div>
-                )}
+          </div>
+        )}
               </div>
             </div>
             <div className="relative">
@@ -289,8 +301,8 @@ const WebsiteGrader = () => {
                   <span className="text-sm font-medium">{t.realTimeAnalysis}</span>
                 </div>
               </div>
-            </div>
-          </div>
+      </div>
+        </div>
         </div>
       </section>
 

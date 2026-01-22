@@ -65,19 +65,19 @@ import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
 
 const ScoreCard = ({ url, scores }) => {
   return (
-    <Card className="p-4 shadow-md bg-blue-gray-800 text-gray-100 rounded-lg">
+    <Card className="p-4 shadow-md bg-card text-card-foreground rounded-lg border border-border">
       <CardHeader className="flex flex-col items-center">
         <div
           className="relative flex items-center justify-center rounded-full w-20 h-20"
           style={{
-            background: `conic-gradient(#ffd700 ${scores.aggregate || 0}%, #34495e 0)`,
+            background: `conic-gradient(#ffd700 ${scores.aggregate || 0}%, hsl(var(--muted)) 0)`,
           }}
         >
-          <span className="text-xl font-bold text-gray-900">
+          <span className="text-xl font-bold text-foreground">
             {scores.aggregate || 0}
           </span>
         </div>
-        <p className="text-lg font-semibold mt-2 text-center break-words">{url}</p>
+        <p className="text-lg font-semibold mt-2 text-center break-words text-foreground">{url}</p>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -93,11 +93,11 @@ const ScoreCard = ({ url, scores }) => {
         </div>
       </CardContent>
       <CardFooter className="flex flex-col items-center space-y-2">
-        <p className="text-center text-sm">Is your website slowing you down?</p>
-        <Button className="w-full bg-yellow-500 hover:bg-yellow-600">
+        <p className="text-center text-sm text-muted-foreground">Is your website slowing you down?</p>
+        <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
           Get the Free CMS
         </Button>
-        <p className="text-xs text-gray-300">No credit card needed</p>
+        <p className="text-xs text-muted-foreground">No credit card needed</p>
       </CardFooter>
     </Card>
   );
@@ -107,13 +107,13 @@ const ScoreDetail = ({ label, score, maxScore, color }) => {
   const barWidth = (score / maxScore) * 100 + "%";
   return (
     <div className="space-y-1">
-      <div className="flex justify-between items-center text-sm">
+      <div className="flex justify-between items-center text-sm text-foreground">
         <span>{label}</span>
         <span className="font-medium">
           {score}/{maxScore}
         </span>
       </div>
-      <div className="w-full h-2 bg-gray-700 rounded-full">
+      <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
         <div
           className="h-full rounded-full"
           style={{ width: barWidth, backgroundColor: color }}

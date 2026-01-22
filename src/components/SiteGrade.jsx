@@ -1,353 +1,10 @@
-// import React from 'react';
-// import './ScoreCard.css';
-// import { useState } from 'react';
-// import PerformanceCard from './PerformanceCard';
-// import FeatureList from './FeatureList';
-// import SEOWrapper from './SEOWrapper';
-// import MobileWrapper from './MobileWrapper';
-// import SecurityWrapper from './SecurityWrapper';
-// import Content from './lastcontent';
-
-// const SiteGrade = () => {
-
-// // Mobile wrapper
-// const mobileData = {
-//     score: 0,
-//     features: [
-//       {
-//         title: 'Legible Font Size',
-//         description: 'Visitors may have difficulty reading small text, especially on mobile devices. We recommend at least 12px.',
-//         status: 'fail',
-//       },
-//       {
-//         title: 'Tap Targets',
-//         description: 'Mobile-friendly pages perform better in search results. Make sure interactive elements like buttons and links are not too small or too close together.',
-//         status: 'fail',
-//       },
-//       {
-//         title: 'Responsive',
-//         description: 'Responsive design gives you a bump in search rankings for searches on mobile devices.',
-//         status: 'fail',
-//       },
-//     ],
-//   };
-
-// // language options
-//   const [showLanguageOptions, setShowLanguageOptions] = useState(false);
-//   return (
-//     <>
-//     <div className="site-grade">
-//       <header className="header">
-//         <div className="header-logo">
-//           <span><img src="https://i.ibb.co/ww9TGKX/f7f777c2e968.png" alt=""  style={{height:"18vh",width:"18vh"}}/></span>
-//           <span className="header-tools">TOOLS</span>
-//         </div>
-//         {/* <span className="header-title">WEBSITE GRADER</span> */}
-//         {/* <button className="language-btn">English</button> */}
-//         <div className="relative inline-block">
-//   <button
-//     className="flex items-center space-x-2   rounded-3xl"
-//     style={{ border: "2px solid grey", padding: "8px 12px", position: "relative", backgroundColor:"#192027", color:"white", fontWeight:"600", }}
-//     onClick={() => setShowLanguageOptions(!showLanguageOptions)}
-//   >
-//     English <span className="icon icon-angle-down"></span>
-//   </button>
-//   {showLanguageOptions && (
-//     <ul
-//       className="absolute bg-white border rounded-md mt-2 w-40 shadow-lg"
-//       style={{
-//         left: "0", // Ensure the dropdown aligns to the left of the button
-//         zIndex: 10, // Bring the dropdown to the front
-//       }}
-//     >
-//       <li className="p-2 hover:bg-gray-100">
-//         <a href="https://website.grader.com/de/" className="text-black">Deutsch</a>
-//       </li>
-//       <li className="p-2 hover:bg-gray-100">
-//         <a href="https://website.grader.com/" className="text-black flex items-center">
-//           <span className="icon icon-check mr-2"></span> English
-//         </a>
-//       </li>
-//       <li className="p-2 hover:bg-gray-100">
-//         <a href="https://website.grader.com/es/" className="text-black">Español</a>
-//       </li>
-//       <li className="p-2 hover:bg-gray-100">
-//         <a href="https://website.grader.com/fr/" className="text-black">Français</a>
-//       </li>
-//       <li className="p-2 hover:bg-gray-100">
-//         <a href="https://website.grader.com/ja/" className="text-black">日本語</a>
-//       </li>
-//       <li className="p-2 hover:bg-gray-100">
-//         <a href="https://website.grader.com/pt/" className="text-black">Português</a>
-//       </li>
-//     </ul>
-//   )}
-// </div>
-
-//       </header>
-
-//       <main className="main-content">
-//         <h1 className="status-title">This site is OK</h1>
-//         <p className="status-description">
-//           Not too shabby. Let’s see how we can bump up that score a bit. See your scorecard below
-//           and take action now by creating a high-speed website with HubSpot CMS Free.
-//         </p>
-//         <div><button className="cta-button">Create a high-speed website</button></div>
-//         {/* <button className="cta-button">Create a high-speed website</button> */}
-
-//         <div className="website-preview">
-//           <div className="browser-header">
-//             <div className="browser-dot red"></div>
-//             <div className="browser-dot yellow"></div>
-//             <div className="browser-dot green"></div>
-//           </div>
-//           <img
-//             src="https://tse4.mm.bing.net/th?id=OIP.vilK3CSw7dyAH24xP8ry4wHaE8&pid=Api&P=0&h=180" // Use your actual image or a placeholder
-//             alt="Sarkari Result Website Preview"
-//             className="website-image"
-//           />
-//         </div>
-//       </main>
-//     </div>
-    
-//     <div style={{}}><PerformanceCard/></div>
-//     <FeatureList/>
-//     <SEOWrapper/>
-//     <div className="min-h-screen bg-gray-200 flex items-center justify-center mt-5 rounded-xl">
-//       <MobileWrapper score={mobileData.score} features={mobileData.features} />
-//     </div>
-//      <div className="min-h-screen bg-gray-100 flex items-center justify-center mt-4 rounded-xl">
-//       <SecurityWrapper />
-//     </div>
-//    <div style={{marginTop:"2vw"}}> <Content/></div>
-    
-//     </>
-//   );
-// };
-
-// export default SiteGrade;
-
-
-// import React from 'react';
-// import './ScoreCard.css';
-// import { useState } from 'react';
-// import PerformanceCard from './PerformanceCard';
-// import FeatureList from './FeatureList';
-// import SEOWrapper from './SEOWrapper';
-// import MobileWrapper from './MobileWrapper';
-// import SecurityWrapper from './SecurityWrapper';
-// import Content from './lastcontent';
-
-// const SiteGrade = () => {
-//   // Mobile wrapper
-//   const mobileData = {
-//     score: 0,
-//     features: [
-//       {
-//         title: 'Legible Font Size',
-//         description: 'Visitors may have difficulty reading small text, especially on mobile devices. We recommend at least 12px.',
-//         status: 'fail',
-//       },
-//       {
-//         title: 'Tap Targets',
-//         description: 'Mobile-friendly pages perform better in search results. Make sure interactive elements like buttons and links are not too small or too close together.',
-//         status: 'fail',
-//       },
-//       {
-//         title: 'Responsive',
-//         description: 'Responsive design gives you a bump in search rankings for searches on mobile devices.',
-//         status: 'fail',
-//       },
-//     ],
-//   };
-
-//   // language options
-//   const [showLanguageOptions, setShowLanguageOptions] = useState(false);
-//   return (
-//     <>
-//       <div className="site-grade">
-//         <header className="header flex flex-col md:flex-row items-center justify-between p-4 bg-gray-800 text-white">
-//           <div className="header-logo flex items-center space-x-2">
-//             <span><img src="https://i.ibb.co/ww9TGKX/f7f777c2e968.png" alt="" className="h-16 w-16 md:h-18 md:w-18" /></span>
-//             <span className="header-tools text-lg font-semibold">TOOLS</span>
-//           </div>
-//           <div className="relative inline-block mt-4 md:mt-0">
-//             <button
-//               className="flex items-center space-x-2 rounded-3xl border-2 border-gray-400 px-4 py-2 bg-gray-700 text-white font-medium"
-//               onClick={() => setShowLanguageOptions(!showLanguageOptions)}
-//             >
-//               English <span className="icon icon-angle-down"></span>
-//             </button>
-//             {showLanguageOptions && (
-//               <ul className="absolute bg-white border rounded-md mt-2 w-40 shadow-lg">
-//                 <li className="p-2 hover:bg-gray-100"><a href="https://website.grader.com/de/" className="text-black">Deutsch</a></li>
-//                 <li className="p-2 hover:bg-gray-100"><a href="https://website.grader.com/" className="text-black flex items-center"><span className="icon icon-check mr-2"></span> English</a></li>
-//                 <li className="p-2 hover:bg-gray-100"><a href="https://website.grader.com/es/" className="text-black">Español</a></li>
-//                 <li className="p-2 hover:bg-gray-100"><a href="https://website.grader.com/fr/" className="text-black">Français</a></li>
-//                 <li className="p-2 hover:bg-gray-100"><a href="https://website.grader.com/ja/" className="text-black">日本語</a></li>
-//                 <li className="p-2 hover:bg-gray-100"><a href="https://website.grader.com/pt/" className="text-black">Português</a></li>
-//               </ul>
-//             )}
-//           </div>
-//         </header>
-
-//         <main className="main-content p-4">
-//           <h1 className="status-title text-2xl font-bold mb-2">This site is OK</h1>
-//           <p className="status-description mb-4">
-//             Not too shabby. Let’s see how we can bump up that score a bit. See your scorecard below
-//             and take action now by creating a high-speed website with HubSpot CMS Free.
-//           </p>
-//           <div className="mb-4"><button className="cta-button bg-blue-600 text-white py-2 px-4 rounded-md">Create a high-speed website</button></div>
-
-//           <div className="website-preview border rounded-lg overflow-hidden shadow-lg mb-4">
-//             <div className="browser-header flex items-center space-x-1 p-2 bg-gray-200">
-//               <div className="browser-dot bg-red-500 w-3 h-3 rounded-full"></div>
-//               <div className="browser-dot bg-yellow-500 w-3 h-3 rounded-full"></div>
-//               <div className="browser-dot bg-green-500 w-3 h-3 rounded-full"></div>
-//             </div>
-//             <img
-//               src="https://tse4.mm.bing.net/th?id=OIP.vilK3CSw7dyAH24xP8ry4wHaE8&pid=Api&P=0&h=180"
-//               alt="Sarkari Result Website Preview"
-//               className="website-image w-full"
-//             />
-//           </div>
-//         </main>
-//       </div>
-
-//       <div className="p-4"><PerformanceCard /></div>
-//       <FeatureList />
-//       <SEOWrapper />
-//       <div className="min-h-screen bg-gray-200 flex items-center justify-center mt-5 rounded-xl">
-//         <MobileWrapper score={mobileData.score} features={mobileData.features} />
-//       </div>
-//       <div className="min-h-screen bg-gray-100 flex items-center justify-center mt-4 rounded-xl">
-//         <SecurityWrapper />
-//       </div>
-//       <div className="mt-8"><Content /></div>
-//     </>
-//   );
-// };
-
-// export default SiteGrade;
-
-
-
-// import React, { useState } from 'react';
-// import './ScoreCard.css';
-// import PerformanceCard from './PerformanceCard';
-// import FeatureList from './FeatureList';
-// import SEOWrapper from './SEOWrapper';
-// import MobileWrapper from './MobileWrapper';
-// import SecurityWrapper from './SecurityWrapper';
-// import Content from './lastcontent';
-
-// const SiteGrade = () => {
-//   // Mobile wrapper
-//   const mobileData = {
-//     score: 0,
-//     features: [
-//       {
-//         title: 'Legible Font Size',
-//         description: 'Visitors may have difficulty reading small text, especially on mobile devices. We recommend at least 12px.',
-//         status: 'fail',
-//       },
-//       {
-//         title: 'Tap Targets',
-//         description: 'Mobile-friendly pages perform better in search results. Make sure interactive elements like buttons and links are not too small or too close together.',
-//         status: 'fail',
-//       },
-//       {
-//         title: 'Responsive',
-//         description: 'Responsive design gives you a bump in search rankings for searches on mobile devices.',
-//         status: 'fail',
-//       },
-//     ],
-//   };
-
-//   // language options
-//   const [showLanguageOptions, setShowLanguageOptions] = useState(false);
-//   return (
-//     <>
-//       <div className="site-grade">
-//         <header className="header flex flex-col md:flex-row items-center justify-between p-4 bg-gray-800 text-white">
-//           <div className="header-logo flex items-center space-x-2">
-//             <span><img src="https://i.ibb.co/ww9TGKX/f7f777c2e968.png" alt="" className="h-16 w-16 md:h-18 md:w-18 transition-transform duration-300 hover:scale-110" /></span>
-//             <span className="header-tools text-lg font-semibold">TOOLS</span>
-//           </div>
-//           <div className="relative inline-block mt-4 md:mt-0">
-//             <button
-//               className="flex items-center space-x-2 rounded-3xl border-2 border-gray-400 px-4 py-2 bg-gray-700 text-white font-medium transition-colors duration-300 hover:bg-gray-600"
-//               onClick={() => setShowLanguageOptions(!showLanguageOptions)}
-//             >
-//               English <span className="icon icon-angle-down"></span>
-//             </button>
-//             {showLanguageOptions && (
-//               <ul className="absolute bg-white border rounded-md mt-2 w-40 shadow-lg">
-//                 <li className="p-2 hover:bg-gray-100 transition-colors duration-300"><a href="https://website.grader.com/de/" className="text-black">Deutsch</a></li>
-//                 <li className="p-2 hover:bg-gray-100 transition-colors duration-300"><a href="https://website.grader.com/" className="text-black flex items-center"><span className="icon icon-check mr-2"></span> English</a></li>
-//                 <li className="p-2 hover:bg-gray-100 transition-colors duration-300"><a href="https://website.grader.com/es/" className="text-black">Español</a></li>
-//                 <li className="p-2 hover:bg-gray-100 transition-colors duration-300"><a href="https://website.grader.com/fr/" className="text-black">Français</a></li>
-//                 <li className="p-2 hover:bg-gray-100 transition-colors duration-300"><a href="https://website.grader.com/ja/" className="text-black">日本語</a></li>
-//                 <li className="p-2 hover:bg-gray-100 transition-colors duration-300"><a href="https://website.grader.com/pt/" className="text-black">Português</a></li>
-//               </ul>
-//             )}
-//           </div>
-//         </header>
-
-//         <main className="main-content p-4">
-//           <h1 className="status-title text-2xl font-bold mb-2">This site is OK</h1>
-//           <p className="status-description mb-4">
-//             Not too shabby. Let’s see how we can bump up that score a bit. See your scorecard below
-//             and take action now by creating a high-speed website with HubSpot CMS Free.
-//           </p>
-//           <div className="mb-4"><button className="cta-button bg-blue-600 text-white py-2 px-4 rounded-md transition-transform duration-300 hover:scale-105">Create a high-speed website</button></div>
-
-//           <div className="website-preview border rounded-lg overflow-hidden shadow-lg mb-4">
-//             <div className="browser-header flex items-center space-x-1 p-2 bg-gray-200">
-//               <div className="browser-dot bg-red-500 w-3 h-3 rounded-full"></div>
-//               <div className="browser-dot bg-yellow-500 w-3 h-3 rounded-full"></div>
-//               <div className="browser-dot bg-green-500 w-3 h-3 rounded-full"></div>
-//             </div>
-//             <img
-//               src="https://tse4.mm.bing.net/th?id=OIP.vilK3CSw7dyAH24xP8ry4wHaE8&pid=Api&P=0&h=180"
-//               alt="Sarkari Result Website Preview"
-//               className="website-image w-full transition-transform duration-300 hover:scale-105"
-//             />
-//           </div>
-//         </main>
-//       </div>
-
-//       <div className="p-4"><PerformanceCard /></div>
-//       <FeatureList />
-//       <SEOWrapper />
-//       <div className="min-h-screen bg-gray-200 flex items-center justify-center mt-5 rounded-xl">
-//         <MobileWrapper score={mobileData.score} features={mobileData.features} />
-//       </div>
-//       <div className="min-h-screen bg-gray-100 flex items-center justify-center mt-4 rounded-xl">
-//         <SecurityWrapper />
-//       </div>
-//       <div className="mt-8"><Content /></div>
-//     </>
-//   );
-// };
-
-// export default SiteGrade;
-
-
-
 import './ScoreCard.css';
 // import PerformanceCard from './PerformanceCard';
-import React, { useState } from 'react';
-import { useNavigate ,Link} from 'react-router-dom';
-import {
-  Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/button'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 import './ScoreCard.css';
-import PerformanceWrapper from './PerformanceWrapper ';
+import PerformanceWrapper from './PerformanceWrapper';
 import FeatureList from './FeatureList';
 import SEOWrapper from './SEOWrapper';
 import MobileWrapper from './MobileWrapper';
@@ -355,105 +12,236 @@ import SecurityWrapper from './SecurityWrapper';
 import Content from './Lastcontent';
 import Lcontent from './Last2ndcontent';
 
-const SiteGrade = () => {
-  const navigate = useNavigate();
+// Language translations (add if not already present or import from a central file)
+const translations = {
+  en: {
+    statusTitle: "This site is OK",
+    statusDescription: "Not too shabby. Let's see how we can bump up that score a bit. See your scorecard below and take action now by creating a high-speed website with HubSpot CMS Free.",
+    ctaButton: "Create a high-speed website",
+    // Add other translations for SiteGrade specific text
+  },
+  // Add other languages as needed
+};
 
-  // Mobile wrapper
-  const mobileData = {
-    score: 0,
-    features: [
-      {
-        title: 'Legible Font Size',
-        description: 'Visitors may have difficulty reading small text, especially on mobile devices. We recommend at least 12px.',
-        status: 'fail',
-      },
-      {
-        title: 'Tap Targets',
-        description: 'Mobile-friendly pages perform better in search results. Make sure interactive elements like buttons and links are not too small or too close together.',
-        status: 'fail',
-      },
-      {
-        title: 'Responsive',
-        description: 'Responsive design gives you a bump in search rankings for searches on mobile devices.',
-        status: 'fail',
-      },
-    ],
-  };
+const SiteGrade = ({ data }) => {
+  const navigate = useNavigate();
+  const [language] = useState('en');
+
+  const t = translations[language] || translations.en;
+
   const handleHomeClick = () => {
     navigate('/');
   };
 
-  // language options
-  const [showLanguageOptions, setShowLanguageOptions] = useState(false);
+  if (!data) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading site analysis...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Extract scores helper
+  const getScore = (label) => {
+    return data.scores?.details?.find(d => d.label === label)?.score || 0;
+  };
+
+  const performanceData = {
+    score: getScore('Performance'),
+    pageSize: data.metrics?.pageSize || '0 KB',
+    pageRequests: data.metrics?.pageRequests || 0,
+    pageSpeed: data.metrics?.pageSpeed || '0 s',
+    imageUrl: data.screenshot || "//static.hsappstatic.net/ui-images/static-2.696/optimized/performance.svg"
+  };
+
+  const seoData = {
+    score: getScore('SEO'),
+    features: [
+      {
+        title: 'Permission to Index',
+        status: 'PASS',
+        message: 'Granted.',
+        description: 'In order for a page to appear in search results, search engines must have permission to store it in their index.'
+      },
+      {
+        title: 'Meta Description',
+        status: 'PASS',
+        message: 'Look at you go!',
+        description: 'Meta descriptions tell people what your page is about in search results.'
+      }
+    ]
+  };
+
+  const mobileData = {
+    score: getScore('Best Practices'), // Using Best Practices as proxy for Mobile if not explicit, or 0
+    features: [
+      {
+        title: 'Legible Font Size',
+        description: 'Visitors may have difficulty reading small text, especially on mobile devices. We recommend at least 12px.',
+        status: 'fail'
+      },
+      {
+        title: 'Tap Targets',
+        description: 'Mobile-friendly pages perform better in search results. Make sure interactive elements like buttons and links are not too small or too close together.',
+        status: 'fail'
+      },
+      {
+        title: 'Responsive',
+        description: 'Responsive design gives you a bump in search rankings for searches on mobile devices.',
+        status: 'fail'
+      }
+    ]
+  };
+
+  const securityData = {
+    score: getScore('Accessibility'), // Accessibility often correlates, or we can use a separate score if we had it
+    features: [
+      {
+        title: 'HTTPS',
+        status: true,
+        description: 'HTTPS protects websites from attacks and gives visitors confidence that your site is authentic and trustworthy.'
+      },
+      {
+        title: 'Secure JavaScript Libraries',
+        status: true,
+        description: 'Intruders can exploit outdated JavaScript libraries. Using the latest version of each library and updating it regularly will help keep you safe.'
+      }
+    ]
+  };
+
   return (
-    <>
-      <div className="site-grade">
-        <header className="header flex flex-col md:flex-row items-center justify-between p-4 bg-white text-white rounded-xl">
-          <div className="header-logo flex items-center space-x-2" >
-            <span><img src="../public/newlogo.png" alt="" className="h-20 w-30 md:h-18 md:w-18 transition-transform duration-300 hover:scale-110" /></span>
-            
-          </div>
-          <div className="relative inline-block mt-4 md:mt-0">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <button className="flex items-center space-x-2 rounded-3xl border-2 border-gray-400 px-4 py-2 bg-gray-700 text-white font-medium transition-colors duration-300 hover:bg-gray-600" onClick={handleHomeClick} variant="outlie">Home</button>
-            <button
-              className="flex items-center space-x-2 rounded-3xl border-2 border-gray-400 px-4 py-2 bg-gray-700 text-white font-medium transition-colors duration-300 hover:bg-gray-600"
-              onClick={() => setShowLanguageOptions(!showLanguageOptions)}
+    <div className="min-h-screen bg-background">
+      <main className="container-custom py-8 md:py-12">
+        {/* Hero Section */}
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <h1 className="text-2xl md:text-4xl font-bold mb-4 text-foreground">{t.statusTitle}</h1>
+          <p className="text-base md:text-lg text-muted-foreground mb-6 md:mb-8">{t.statusDescription}</p>
+          <Button 
+            className="btn-primary inline-flex items-center px-6 py-3 text-base md:text-lg"
+            onClick={handleHomeClick}
+          >
+            {t.ctaButton}
+            <svg 
+              className="ml-2 h-4 w-4" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
             >
-              English <span className="icon icon-angle-down"></span>
-            </button>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Button>
+        </div>
+
+        {/* Website Preview */}
+        <div className="card overflow-hidden p-0 mb-12 max-w-4xl mx-auto border border-border shadow-lg rounded-lg">
+          <div className="browser-header flex items-center space-x-2 p-3 bg-muted/50 border-b border-border">
+            <div className="flex space-x-1.5">
+              <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
             </div>
-            {showLanguageOptions && (
-              <ul className="absolute bg-white border rounded-md mt-2 w-40 shadow-lg">
-                <li className="p-2 hover:bg-gray-100 transition-colors duration-300"><a href="https://website.grader.com/de/" className="text-black">Deutsch</a></li>
-                <li className="p-2 hover:bg-gray-100 transition-colors duration-300"><a href="https://website.grader.com/" className="text-black flex items-center"><span className="icon icon-check mr-2"></span> English</a></li>
-                <li className="p-2 hover:bg-gray-100 transition-colors duration-300"><a href="https://website.grader.com/es/" className="text-black">Español</a></li>
-                <li className="p-2 hover:bg-gray-100 transition-colors duration-300"><a href="https://website.grader.com/fr/" className="text-black">Français</a></li>
-                <li className="p-2 hover:bg-gray-100 transition-colors duration-300"><a href="https://website.grader.com/ja/" className="text-black">日本語</a></li>
-                <li className="p-2 hover:bg-gray-100 transition-colors duration-300"><a href="https://website.grader.com/pt/" className="text-black">Português</a></li>
-              </ul>
+            <div className="flex-1 text-center text-xs text-muted-foreground font-mono truncate px-4">
+              {data.url}
+            </div>
+          </div>
+          <div className="aspect-video w-full bg-muted/20 relative">
+            {data.screenshot ? (
+              <img
+                src={data.screenshot}
+                alt="Website Preview"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="flex items-center justify-center h-full text-muted-foreground">
+                No Preview Available
+              </div>
             )}
           </div>
-        </header>
+        </div>
 
-        <main className="main-content p-4">
-          <h1 className="status-title text-2xl font-bold mb-2 text-center">This site is OK</h1>
-          <p className="status-description mb-4 text-center">
-            Not too shabby. Let’s see how we can bump up that score a bit. See your scorecard below
-            and take action now by creating a high-speed website with HubSpot CMS Free.
-          </p>
-          <div className="mb-4 flex justify-center"><button className="cta-button bg-blue-600 text-white py-2 px-4 rounded-md transition-transform duration-300 hover:scale-105">Create a high-speed website</button></div>
-
-          <div className="website-preview border rounded-lg overflow-hidden shadow-lg mb-4">
-            <div className="browser-header flex items-center space-x-1 p-2 bg-gray-200">
-              <div className="browser-dot bg-red-500 w-3 h-3 rounded-full"></div>
-              <div className="browser-dot bg-yellow-500 w-3 h-3 rounded-full"></div>
-              <div className="browser-dot bg-green-500 w-3 h-3 rounded-full"></div>
+        {/* Components Grid */}
+        <div className="space-y-8 md:space-y-12">
+          {/* Performance Section */}
+          <div className="space-y-4">
+            <div className="p-4 flex justify-center">
+              <img 
+                src="//static.hsappstatic.net/ui-images/static-2.696/optimized/design-manager.svg" 
+                alt="Design Manager" 
+                className="h-12 md:h-16 w-auto"
+              />
             </div>
-            <img
-              src="https://tse4.mm.bing.net/th?id=OIP.vilK3CSw7dyAH24xP8ry4wHaE8&pid=Api&P=0&h=180"
-              alt=" Website Preview"
-              className="website-image w-full transition-transform duration-300 hover:scale-105"
+            <PerformanceWrapper 
+              score={performanceData.score}
+              pageSize={performanceData.pageSize}
+              pageRequests={performanceData.pageRequests}
+              pageSpeed={performanceData.pageSpeed}
+              imageUrl={performanceData.imageUrl}
             />
           </div>
-        </main>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+            {/* SEO Section */}
+            <div className="space-y-4 flex flex-col">
+              <div className="p-4 flex justify-center">
+                <img 
+                  src="//static.hsappstatic.net/ui-images/static-2.696/optimized/global.svg" 
+                  alt="Global" 
+                  className="h-12 md:h-16 w-auto"
+                />
+              </div>
+              <div className="flex-grow">
+                <SEOWrapper 
+                  score={seoData.score}
+                  features={seoData.features}
+                />
+              </div>
+            </div>
+
+            {/* Mobile Section */}
+            <div className="space-y-4 flex flex-col">
+              <div className="p-4 flex justify-center">
+                <img 
+                  src="//static.hsappstatic.net/ui-images/static-2.696/optimized/mobile-onboarding-powering-up.svg" 
+                  alt="Mobile" 
+                  className="h-12 md:h-16 w-auto"
+                />
+              </div>
+              <div className="flex-grow">
+                <MobileWrapper 
+                  score={mobileData.score}
+                  features={mobileData.features}
+                  screenshot={data.screenshot}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Security Section */}
+          <div className="space-y-4">
+            <div className="p-4 flex justify-center">
+              <img 
+                src="//static.hsappstatic.net/ui-images/static-2.696/optimized/add-on-ssl.svg" 
+                alt="SSL" 
+                className="h-12 md:h-16 w-auto"
+              />
+            </div>
+            <SecurityWrapper 
+              score={securityData.score}
+              features={securityData.features}
+            />
+          </div>
+
+        {/* Additional Content */}
+        <div className="mt-8 md:mt-12 space-y-8 md:space-y-12">
+          <Lcontent />
+          <Content />
+        </div>
       </div>
-<div className="p-4 flex justify-center"><img src="//static.hsappstatic.net/ui-images/static-2.696/optimized/design-manager.svg" alt="" /></div>
-      <div className="p-4"><PerformanceWrapper/></div>
-      <FeatureList />
-      <div className='p-4 flex justify-center'><img src="//static.hsappstatic.net/ui-images/static-2.696/optimized/global.svg" alt="" /></div>
-      <SEOWrapper />
-      <div className='p-4 flex justify-center'><img src="//static.hsappstatic.net/ui-images/static-2.696/optimized/mobile-onboarding-powering-up.svg" alt="" /></div>
-      <div className="min-h-screen bg-gray-200 flex flex-col items-center justify-center mt-5 rounded-xl">
-        <MobileWrapper score={mobileData.score} features={mobileData.features} />
-      </div>
-      <div className='p-4 flex justify-center'><img src="//static.hsappstatic.net/ui-images/static-2.696/optimized/add-on-ssl.svg" alt="" /></div>
-      <div className="min-h-screen  flex flex-col items-center justify-center mt-4 rounded-xl">
-        <SecurityWrapper />
-      </div>
-      <div className='mt-8'><Lcontent /></div>
-      <div className="mt-8"><Content /></div>
-    </>
+    </main>
+  </div>
   );
 };
 

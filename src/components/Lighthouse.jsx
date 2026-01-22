@@ -195,12 +195,12 @@ const Lighthouse = () => {
                 </Card>
               ))}
             </div>
-
-            {/* SiteGrade Component */}
-            <div className="transform hover:scale-[1.02] transition-transform">
-              <SiteGrade data={analysisData} />
-            </div>
           </div>
+        </div>
+        
+        {/* Detailed Report Section */}
+        <div className="mt-12">
+           <SiteGrade data={analysisData} />
         </div>
       </main>
 
@@ -221,8 +221,8 @@ const Lighthouse = () => {
             <p className="text-xs sm:text-sm text-muted-foreground">
               © {new Date().getFullYear()} Website Grader. All rights reserved.
             </p>
-          </div>
-        </div>
+      </div>
+      </div>
       </footer>
     </div>
   );

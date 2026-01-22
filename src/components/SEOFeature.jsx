@@ -73,32 +73,34 @@
 
 import React from 'react';
 import { BsCheckCircleFill, BsXCircleFill } from 'react-icons/bs';
+import { Card, CardContent } from '@/components/ui/card';
 
 const SEOFeature = ({ title, status, description, message }) => (
-  <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg text-center" style={{border:'1px solid white'}}>
-    {/* Status Badge */}
-    <div className={`text-xs font-semibold ${status === 'PASS' ? 'text-green-500' : 'text-red-500'} bg-opacity-20 px-2 py-1 rounded-full inline-block mb-4`}>
-      {status === 'PASS' ? 'Optimized' : 'Not Optimized'}
-    </div>
+  <Card className="w-full border border-border shadow-sm hover:shadow-md transition-all duration-200">
+    <CardContent className="p-6 flex flex-row items-start gap-6 text-left">
+      {/* Icon - Left Side */}
+      <div className="flex-shrink-0 mt-1">
+        {status === 'PASS' ? (
+          <BsCheckCircleFill className="text-green-500 text-3xl md:text-4xl" />
+        ) : (
+          <BsXCircleFill className="text-red-500 text-3xl md:text-4xl" />
+        )}
+      </div>
 
-    {/* Title */}
-    <h3 className="text-lg font-semibold text-gray-200">{title}</h3>
-
-    {/* Icon */}
-    <div className="my-4">
-      {status === 'PASS' ? (
-        <BsCheckCircleFill className="text-green-500 text-4xl" />
-      ) : (
-        <BsXCircleFill className="text-red-500 text-4xl" />
-      )}
-    </div>
-
-    {/* Message */}
-    <p className="text-gray-400 font-medium">{message}</p>
-
-    {/* Description */}
-    <p className="text-gray-500 mt-2 text-sm">{description}</p>
-  </div>
+      {/* Content - Right Side */}
+      <div className="flex-grow space-y-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+          <div className={`text-xs font-semibold ${status === 'PASS' ? 'text-green-500 bg-green-500/10' : 'text-red-500 bg-red-500/10'} px-3 py-1 rounded-full w-fit`}>
+            {status === 'PASS' ? 'Optimized' : 'Not Optimized'}
+          </div>
+        </div>
+        
+        <p className="text-foreground font-medium">{message}</p>
+        <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
+      </div>
+    </CardContent>
+  </Card>
 );
 
 export default SEOFeature;

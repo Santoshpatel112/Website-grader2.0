@@ -99,12 +99,12 @@ function App() {
         {/* Main content */}
         <main className="flex-grow">
           <div className="container-custom py-8">
-            <Routes>
-              <Route path="/" element={<WebsiteGrader />} />
-              <Route path="/lighthouse" element={<Lighthouse />} />
+        <Routes>
+          <Route path="/" element={<WebsiteGrader />} />
+          <Route path="/lighthouse" element={<Lighthouse />} />
               <Route path="/cms" element={<Services />} />
               <Route path="/contact" element={<Contact />} />
-            </Routes>
+        </Routes>
           </div>
         </main>
 

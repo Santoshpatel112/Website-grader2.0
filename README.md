@@ -18,6 +18,7 @@ A comprehensive web application that analyzes website performance, SEO, security
 - **Interactive Scorecards**: Visual performance indicators and progress tracking
 - **Responsive Design**: Mobile-first approach with modern UI/UX
 
+
 ### Technical Features
 - **Google PageSpeed API Integration**: Leverages Google's Lighthouse for accurate analysis
 - **EmailJS Integration**: Automated email delivery system

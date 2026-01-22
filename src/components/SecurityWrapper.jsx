@@ -1,87 +1,33 @@
-// import React from 'react';
-// import SecurityDetails from './SecurityDetails';
-
-// const SecurityWrapper = () => {
-//   const securityData = {
-//     https: {
-//       title: 'HTTPS',
-//       status: true,
-//       description: 'HTTPS protects websites from attacks and gives visitors confidence that your site is authentic and trustworthy.',
-//     },
-//     jsLibraries: {
-//       title: 'Secure JavaScript Libraries',
-//       status: true,
-//       description: 'Intruders can exploit outdated JavaScript libraries. Using the latest version of each library and updating it regularly will help keep you safe.',
-//     },
-//   };
-
-//   const allSecured = Object.values(securityData).every(detail => detail.status);
-
-//   return (
-//     <div className="bg-gray-50 p-10 rounded-lg shadow-lg text-center max-w-xl mx-auto">
-//       <h2 className={`text-3xl font-bold ${allSecured ? 'text-green-500' : 'text-red-500'}`}>
-//         {allSecured ? '10/10' : 'Security Issues Found'}
-//       </h2>
-//        <h1 className="text-4xl font-bold text-gray-800 mb-4">Security</h1>
-//       <p className="text-gray-600 mt-2 mb-6">
-//         A secure website equipped with an SSL certificate and free from vulnerabilities is now the standard online.
-//       </p>
-//       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-//         <SecurityDetails {...securityData.https} />
-//         <SecurityDetails {...securityData.jsLibraries} />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SecurityWrapper;
-
 import React from 'react';
 import SecurityDetails from './SecurityDetails';
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
+import { ShieldCheck } from 'lucide-react';
 
-const SecurityWrapper = () => {
-  const securityData = {
-    https: {
-      title: 'HTTPS',
-      status: true,
-      description:
-        'HTTPS protects websites from attacks and gives visitors confidence that your site is authentic and trustworthy.',
-    },
-    jsLibraries: {
-      title: 'Secure JavaScript Libraries',
-      status: true,
-      description:
-        'Intruders can exploit outdated JavaScript libraries. Using the latest version of each library and updating it regularly will help keep you safe.',
-    },
-  };
-
-  const allSecured = Object.values(securityData).every((detail) => detail.status);
-
+const SecurityWrapper = ({ score, features }) => {
   return (
-    <div
-      className="p-6 rounded-lg"
-      style={{
-        backgroundColor: '#2C3E50',
-        color: 'white',
-      }}
-    >
+    <Card className="card w-full space-y-6 text-center">
       {/* Header */}
-      <div className="text-center mb-8">
-        <h2 className={`text-4xl font-bold ${allSecured ? 'text-green-500' : 'text-red-500'}`}>
-          {allSecured ? '10/10' : 'Security Issues Found'}
-        </h2>
-        <h1 className="text-2xl font-bold mt-2 text-gray-200">Security</h1>
-        <p className="text-white mt-2">
+      <CardHeader className="p-0 space-y-2">
+        <div className="flex items-center justify-center space-x-2">
+          <ShieldCheck className="w-8 h-8 text-primary" />
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground">Security</h2>
+        </div>
+        <div className={`text-4xl font-extrabold ${score >= 90 ? 'text-green-500' : score >= 50 ? 'text-yellow-500' : 'text-red-500'}`}>
+          {score}
+          <span className="text-muted-foreground text-2xl">/100</span>
+        </div>
+        <p className="text-muted-foreground max-w-2xl mx-auto">
           A secure website equipped with an SSL certificate and free from vulnerabilities is the standard online.
         </p>
-      </div>
+      </CardHeader>
 
       {/* Security Details */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <SecurityDetails {...securityData.https} />
-        <SecurityDetails {...securityData.jsLibraries} />
-      </div>
-    </div>
+      <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-0 pt-6 border-t border-border">
+        {features && features.map((feature, index) => (
+          <SecurityDetails key={index} {...feature} />
+        ))}
+      </CardContent>
+    </Card>
   );
 };
 
