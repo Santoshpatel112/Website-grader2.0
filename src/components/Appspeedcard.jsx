@@ -1,6 +1,6 @@
 // File: PageSpeedCards.js
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const PageSpeedCards = () => {
   const [data, setData] = useState(null);

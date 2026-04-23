@@ -1,7 +1,7 @@
 
 // Update 19/11/24 (2)
 // components/PerformanceWrapper.js
-import React, { useContext } from "react";
+import { useContext } from "react";
 import PerformanceCard from "./PerformanceCard";
 import { PageSpeedContext } from "../Context/context";
 
