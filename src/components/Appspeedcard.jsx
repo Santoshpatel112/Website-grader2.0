@@ -25,7 +25,7 @@ const PageSpeedCards = () => {
         setLoading(false);
       });
   }, []);
-  console.log("App-Speed Data",data);
+  // console.log("App-Speed Data",data);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;

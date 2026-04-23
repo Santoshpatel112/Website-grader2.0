@@ -1,5 +1,5 @@
 // Context/context.js
-import React, { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 export const PageSpeedContext = createContext();
@@ -29,7 +29,7 @@ export const PageSpeedProvider = ({ children}) => {
           performanceScore: (responseData.lighthouseResult?.categories?.performance?.score || 0) * 25,
         };
 
-        console.log("Processed performanceData:", performanceData);  // Debug log
+        // console.log("Processed performanceData:", performanceData);  // Debug log
         setData(performanceData);  // Update the context with the fetched data
         setLoading(false);  // Stop loading
       })

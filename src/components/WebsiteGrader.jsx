@@ -1,68 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import emailjs from '@emailjs/browser'
-import { Link, useNavigate } from 'react-router-dom'
-import { ChevronDownIcon, CheckIcon, ArrowRight, Shield, Zap, Search, Smartphone } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { ArrowRight, Shield, Zap, Search, Smartphone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import React from 'react';
-
-import Contact from './Contact'
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-
-// Language translations
-const translations = {
-  en: {
-    title: "Website Grader",
-    subtitle: "Grade your website in seconds. Then learn how to improve it for free.",
-    urlPlaceholder: "https://example.com",
-    emailPlaceholder: "Enter Your Email",
-    privacyText: "We are committed to your privacy. Mycto uses the information you provide to us to contact you about our relevant content, products, and services. You may unsubscribe from these communications at any time. For more information, check out our",
-    privacyPolicy: "Privacy Policy",
-    getScore: "Get your score",
-    analyzing: "Analyzing...",
-    featuresTitle: "Get Your Website Rating in Seconds",
-    featuresSubtitle: "Website grader tools make understanding website performance easy. Learn about your page performance, security, SEO, and mobile experience.",
-    performance: "Performance",
-    performanceDesc: "Analyze your website's speed and performance metrics",
-    security: "Security",
-    securityDesc: "Check your website's security and best practices",
-    seo: "SEO",
-    seoDesc: "Evaluate your search engine optimization",
-    mobile: "Mobile",
-    mobileDesc: "Test your website's mobile responsiveness",
-    realTimeAnalysis: "Real-time Analysis"
-  },
-  de: {
-    title: "Website Grader",
-    subtitle: "Bewerten Sie Ihre Website in Sekunden. Lernen Sie dann kostenlos, wie Sie sie verbessern können.",
-    urlPlaceholder: "https://beispiel.de",
-    emailPlaceholder: "E-Mail eingeben",
-    privacyText: "Wir verpflichten uns zu Ihrer Privatsphäre. Mycto verwendet die von Ihnen bereitgestellten Informationen, um Sie über relevante Inhalte, Produkte und Dienstleistungen zu informieren. Sie können diese Kommunikation jederzeit abbestellen. Weitere Informationen finden Sie in unserer",
-    privacyPolicy: "Datenschutzerklärung",
-    getScore: "Bewertung erhalten",
-    analyzing: "Analysiere...",
-    featuresTitle: "Erhalten Sie Ihre Website-Bewertung in Sekunden",
-    featuresSubtitle: "Website-Grader-Tools machen es einfach, die Website-Performance zu verstehen. Erfahren Sie mehr über Ihre Seitenleistung, Sicherheit, SEO und mobile Erfahrung.",
-    performance: "Leistung",
-    performanceDesc: "Analysieren Sie die Geschwindigkeit und Leistungsmetriken Ihrer Website",
-    security: "Sicherheit",
-    securityDesc: "Überprüfen Sie die Sicherheit und Best Practices Ihrer Website",
-    seo: "SEO",
-    seoDesc: "Bewerten Sie Ihre Suchmaschinenoptimierung",
-    mobile: "Mobil",
-    mobileDesc: "Testen Sie die mobile Reaktionsfähigkeit Ihrer Website",
-    realTimeAnalysis: "Echtzeit-Analyse"
-  },
-  // Add more languages as needed
-};
+import { useLanguage } from '../Context/LanguageContext'
 
 const WebsiteGrader = () => {
   useEffect(() => {
@@ -73,42 +15,22 @@ const WebsiteGrader = () => {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [language, setLanguage] = useState('en')
+  const { t } = useLanguage()
 
   const navigate = useNavigate()
-const form = useRef();
-
-  const t = translations[language] || translations.en;
-
-  const handleLanguageChange = (value) => {
-    setLanguage(value);
-    // You can also save the language preference to localStorage
-    localStorage.setItem('preferredLanguage', value);
-  };
-
-  // Load saved language preference on component mount
-  useEffect(() => {
-    const savedLanguage = localStorage.getItem('preferredLanguage');
-    if (savedLanguage) {
-      setLanguage(savedLanguage);
-    }
-  }, []);
+  const form = useRef();
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    
-  
-    
-
 
     if (!url.trim()) {
-      setError('Please enter a URL')
+      setError(t('errorUrl'))
       return
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!email.trim() || !emailRegex.test(email.trim())) {
-      setError('Please enter a valid email address')
+      setError(t('errorEmail'))
       return
     }
 
@@ -116,16 +38,14 @@ const form = useRef();
     setError(null)
 
     try {
-      // Validate and auto-correct URL input
       let checkedUrl = url.trim();
       if (!/^https?:\/\//i.test(checkedUrl)) {
         checkedUrl = 'https://' + checkedUrl;
       }
-      // Check for valid URL format
       try {
         new URL(checkedUrl);
       } catch (e) {
-        setError('Please enter a valid and complete URL (e.g., https://example.com)');
+        setError(t('errorInvalidUrl'));
         setLoading(false);
         return;
       }
@@ -134,12 +54,12 @@ const form = useRef();
       const response = await fetch(apiUrl);
 
       if (response.status === 400) {
-        setError('Invalid URL or request. Please check your website address and try again.');
+        setError(t('errorBadRequest'));
         setLoading(false);
         return;
       }
       if (response.status === 429) {
-        setError('You have made too many requests. Please wait a minute and try again.');
+        setError(t('errorTooMany'));
         setLoading(false);
         return;
       }
@@ -159,15 +79,12 @@ const form = useRef();
       const bestPracticesScore = parseFloat((lighthouseResult.categories?.["best-practices"]?.score * 100 || 0).toFixed(1));
       const seoScore = parseFloat((lighthouseResult.categories?.seo?.score * 100 || 0).toFixed(1));
 
-      // Extract additional metrics
       const screenshot = lighthouseResult.audits?.["final-screenshot"]?.details?.data;
       const pageSize = lighthouseResult.audits?.["total-byte-weight"]?.displayValue;
       const pageRequests = lighthouseResult.audits?.["network-requests"]?.details?.items?.length;
       const pageSpeed = lighthouseResult.audits?.["interactive"]?.displayValue;
 
-
       const emailContent = `
-        
          ${url}
         Performance Score: ${performanceScore}
         Accessibility Score:${accessibilityScore}
@@ -179,28 +96,23 @@ const form = useRef();
         ).toFixed(1)}
       `;
 
-      // Send email with the results using EmailJS
       await emailjs.send(
-        'service_sd4ada7', // Replace with your EmailJS service ID
-        'template_xcy5z5u', // Replace with your EmailJS template ID
+        'service_sd4ada7',
+        'template_xcy5z5u',
         {
           from_name: 'Website Grader',
-          to_email: email.trim(), // Use the email input by the user
-          message: emailContent, // Send the generated email content
+          to_email: email.trim(),
+          message: emailContent,
         },
-        '-243iobnGw0PSzPnp' // Replace with your EmailJS public key
+        '-243iobnGw0PSzPnp'
       );
 
-      console.log('Email sent successfully!');
-     
+      // console.log('Email sent successfully!');
+
       const resultData = {
         url,
         screenshot,
-        metrics: {
-          pageSize,
-          pageRequests,
-          pageSpeed,
-        },
+        metrics: { pageSize, pageRequests, pageSpeed },
         scores: {
           aggregate: (performanceScore + accessibilityScore + bestPracticesScore + seoScore) / 4,
           details: [
@@ -208,7 +120,7 @@ const form = useRef();
             { label: 'Accessibility', score: accessibilityScore, maxScore: 100, color: 'orange' },
             { label: 'Best Practices', score: bestPracticesScore, maxScore: 100, color: 'blue' },
             { label: 'SEO', score: seoScore, maxScore: 100, color: 'green' },
-          ],  
+          ],
         },
       }
 
@@ -229,80 +141,80 @@ const form = useRef();
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="flex items-center space-x-4">
-                <img 
-                  src="/public/newlogo.png" 
-                  alt={t.title} 
+                <img
+                  src="/newlogo.png"
+                  alt={t('title')}
                   className="h-12 w-auto"
                 />
                 <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
-                  {t.title} <sup className="text-sm">®</sup>
+                  {t('title')} <sup className="text-sm">®</sup>
                 </h1>
-      </div>
+              </div>
               <p className="text-xl text-muted-foreground">
-                {t.subtitle}
+                {t('subtitle')}
               </p>
               <div className="card max-w-xl">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
-          <Input
-            ref={form}
-            type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-                      placeholder={t.urlPlaceholder}
+                    <Input
+                      ref={form}
+                      type="text"
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                      placeholder={t('urlPlaceholder')}
                       className="input-field"
-          />
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-                      placeholder={t.emailPlaceholder}
+                    />
+                    <Input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder={t('emailPlaceholder')}
                       className="input-field"
                     />
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    {t.privacyText}{' '}
-                    <a href="#" className="text-primary hover:underline">{t.privacyPolicy}</a>.
+                    {t('privacyText')}{' '}
+                    <a href="#" className="text-primary hover:underline">{t('privacyPolicy')}</a>.
                   </p>
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="btn-primary w-full"
                     disabled={loading}
                   >
                     {loading ? (
                       <div className="flex items-center space-x-2">
                         <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                        <span>{t.analyzing}</span>
+                        <span>{t('analyzing')}</span>
                       </div>
                     ) : (
                       <div className="flex items-center space-x-2">
-                        <span>{t.getScore}</span>
+                        <span>{t('getScore')}</span>
                         <ArrowRight className="w-4 h-4" />
                       </div>
                     )}
-          </Button>
-        </form>
+                  </Button>
+                </form>
                 {error && (
                   <div className="mt-4 p-3 bg-destructive/10 text-destructive rounded-lg text-sm">
                     {error}
-          </div>
-        )}
+                  </div>
+                )}
               </div>
             </div>
             <div className="relative">
-              <img 
-                src="//static.hsappstatic.net/website-grader-ui/static-1.3755/img/website-performance-rating.jpg" 
-                alt={t.title} 
+              <img
+                src="//static.hsappstatic.net/website-grader-ui/static-1.3755/img/website-performance-rating.jpg"
+                alt={t('title')}
                 className="rounded-2xl shadow-2xl"
               />
-              <div className="absolute -bottom-6 -left-6 bg-card p-4 rounded-2xl shadow-lg">
+              <div className="absolute -bottom-6 -left-6 bg-card p-4 rounded-2xl shadow-lg border border-border/50">
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                  <span className="text-sm font-medium">{t.realTimeAnalysis}</span>
+                  <span className="text-sm font-medium">{t('realTimeAnalysis')}</span>
                 </div>
               </div>
-      </div>
-        </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -311,34 +223,18 @@ const form = useRef();
         <div className="container-custom">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {t.featuresTitle}
+              {t('featuresTitle')}
             </h2>
             <p className="text-lg text-muted-foreground">
-              {t.featuresSubtitle}
+              {t('featuresSubtitle')}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              {
-                icon: <Zap className="w-6 h-6" />,
-                title: t.performance,
-                description: t.performanceDesc
-              },
-              {
-                icon: <Shield className="w-6 h-6" />,
-                title: t.security,
-                description: t.securityDesc
-              },
-              {
-                icon: <Search className="w-6 h-6" />,
-                title: t.seo,
-                description: t.seoDesc
-              },
-              {
-                icon: <Smartphone className="w-6 h-6" />,
-                title: t.mobile,
-                description: t.mobileDesc
-              }
+              { icon: <Zap className="w-6 h-6" />, title: t('performance'), description: t('performanceDesc') },
+              { icon: <Shield className="w-6 h-6" />, title: t('security'), description: t('securityDesc') },
+              { icon: <Search className="w-6 h-6" />, title: t('seo'), description: t('seoDesc') },
+              { icon: <Smartphone className="w-6 h-6" />, title: t('mobile'), description: t('mobileDesc') },
             ].map((feature, index) => (
               <div key={index} className="card group hover:border-primary/50 transition-colors">
                 <div className="p-2 bg-primary/10 rounded-xl w-fit mb-4 group-hover:bg-primary/20 transition-colors">
@@ -352,76 +248,15 @@ const form = useRef();
         </div>
       </section>
 
-      {/* Language Selector */}
-      <div className="fixed top-4 right-4 z-50">
-        <Select 
-          defaultValue={language} 
-          onValueChange={(value) => {
-            setLanguage(value);
-            localStorage.setItem('preferredLanguage', value);
-          }}
-        >
-          <SelectTrigger className="w-[180px] bg-card/80 backdrop-blur-sm">
-            <SelectValue>
-              {language === 'en' && 'English'}
-              {language === 'de' && 'Deutsch'}
-              {language === 'es' && 'Español'}
-              {language === 'fr' && 'Français'}
-              {language === 'ja' && '日本語'}
-              {language === 'pt' && 'Português'}
-            </SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="en">
-              <div className="flex items-center gap-2">
-                <span>🇺🇸</span>
-                <span>English</span>
-              </div>
-            </SelectItem>
-            <SelectItem value="de">
-              <div className="flex items-center gap-2">
-                <span>🇩🇪</span>
-                <span>Deutsch</span>
-              </div>
-            </SelectItem>
-            <SelectItem value="es">
-              <div className="flex items-center gap-2">
-                <span>🇪🇸</span>
-                <span>Español</span>
-              </div>
-            </SelectItem>
-            <SelectItem value="fr">
-              <div className="flex items-center gap-2">
-                <span>🇫🇷</span>
-                <span>Français</span>
-              </div>
-            </SelectItem>
-            <SelectItem value="ja">
-              <div className="flex items-center gap-2">
-                <span>🇯🇵</span>
-                <span>日本語</span>
-              </div>
-            </SelectItem>
-            <SelectItem value="pt">
-              <div className="flex items-center gap-2">
-                <span>🇵🇹</span>
-                <span>Português</span>
-              </div>
-            </SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
       {/* Contact Section */}
       <footer className="bg-secondary/50 py-12 mt-20">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold text-center mb-8">Contact Me</h2>
+            <h2 className="text-2xl font-bold text-center mb-8">{t('contactMe')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* GitHub */}
-              <a 
-                href="https://github.com/Santoshpatel112/" 
-                target="_blank" 
+              <a
+                href="https://github.com/Santoshpatel112/"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="card hover:border-primary/50 transition-colors group"
               >
@@ -433,11 +268,9 @@ const form = useRef();
                 <h3 className="text-xl font-semibold mb-2">GitHub</h3>
                 <p className="text-muted-foreground">@Santoshpatel112</p>
               </a>
-
-              {/* LinkedIn */}
-              <a 
-                href="https://www.linkedin.com/in/santosh-patel112/" 
-                target="_blank" 
+              <a
+                href="https://www.linkedin.com/in/santosh-patel112/"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="card hover:border-primary/50 transition-colors group"
               >
@@ -449,9 +282,7 @@ const form = useRef();
                 <h3 className="text-xl font-semibold mb-2">LinkedIn</h3>
                 <p className="text-muted-foreground">Santosh Patel</p>
               </a>
-
-              {/* Email */}
-              <a 
+              <a
                 href="mailto:santoshpatelvns5@gmail.com"
                 className="card hover:border-primary/50 transition-colors group"
               >
@@ -473,6 +304,3 @@ const form = useRef();
 }
 
 export default WebsiteGrader
-
-
-// 👆👆👆👆👆👆👆

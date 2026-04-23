@@ -7,9 +7,9 @@ import { PageSpeedContext } from "../Context/context";
 
 const PerformanceWrapper = () => {
   const { data, loading, error } = useContext(PageSpeedContext);
-  console.log("Context data in Wrapper:", { data, loading, error });
+  // console.log("Context data in Wrapper:", { data, loading, error });
 
-  console.log("PerformanceWrapper component is rendering");
+  // console.log("PerformanceWrapper component is rendering");
 
   // console.log("Context data in PerformanceWrapper:", data);  // Debugging
 
@@ -18,13 +18,13 @@ const PerformanceWrapper = () => {
   if (!data) return <div>No performance data available.</div>;
 
   // Ensure we're passing the correct data to PerformanceCard
-  console.log("Data passed to PerformanceCard:", {
-    imageUrl: data.imageUrl,
-    pageSize: data.pageSize,
-    pageRequests: data.pageRequests,
-    pageSpeed: data.pageSpeed,
-    performanceScore: data.performanceScore,
-  });
+  // console.log("Data passed to PerformanceCard:", {
+  //   imageUrl: data.imageUrl,
+  //   pageSize: data.pageSize,
+  //   pageRequests: data.pageRequests,
+  //   pageSpeed: data.pageSpeed,
+  //   performanceScore: data.performanceScore,
+  // });
 
   return (
     <PerformanceCard
